@@ -20,11 +20,11 @@ Rails.application.routes.draw do
   #devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   resources :users
-  resources :courses
-
-  #resources :users, only: [:edit, :update] do
-  #  resources :recommended_posts, only: [:index]
-  #end
+  
+  resources :courses, only: [:index, :show] do
+    get "(page/:page)", action: :index, on: :collection, as: ""
+    resources :enrollments, only: [:create]
+  end
 
   resources :lessons, only: :show
 
@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :courses, only: [:new, :create, :show] do
     resources :sections, only: [:create, :update]
   end
+  get 'dashboard', to: 'courses#index', as: :dashboard
   resources :sections, only: [] do
     resources :lessons, only: [:create, :update]
   end
@@ -47,18 +48,25 @@ end
   #
   # get 'profile/:user_id/edit', to: 'profiles#edit', as: :profile_path
   get 'profile/posts', to: 'users#posts', as: :profile_posts
-  get 'profile', to: 'profiles#show', as: :profile
-  get 'profile/edit', to: 'profiles#edit', as: :profile_edit
-  patch 'profile/edit', to: 'profiles#edit', as: :profile_update
+  get 'profile/:id', to: 'profiles#show', as: :profile
+  get 'profile/:id/edit', to: 'profiles#edit', as: :edit_profile
+  patch 'profile/edit', to: 'profiles#update', as: :update_profile
+  get 'my_profile', to: 'profiles#my_profile', as: :my_profile
+  get 'profiles', to: 'profiles#index', as: :profiles
   #
   # Skills
   #
   resources :skills
   resources :myskills
   #
-  get 'my_skills', to: 'myskills#my_skills', as: :my_skills
+  get 'my_skills', to: 'myskills#index', as: :my_skills
   #get 'new_skills', to: 'skills#new', as: :new_skills
 
+
+  #
+  # Categories
+  #
+  get 'category/:id', to: 'categories#show', as: :category
 
   #  resources :profiles
 

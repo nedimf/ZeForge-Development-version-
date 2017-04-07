@@ -1,8 +1,18 @@
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!, :except => [:show, :index]
-  before_action :set_profile
+  before_action :authenticate_user!, except: [:show, :index]
+  before_action :set_profile_user, only: [:index, :show, :edit]
+  before_action :check_profile_owner, only: [:edit, :updates]
+  before_action :set_current_profile, only: [:my_profile]
+
+  def index
+    @profiles = User.all.order('created_at DESC')
+  end
 
   def show
+    @posts = User.find_by(id: params[:id]).posts.page(params[:page]).per(5)
+  end
+
+  def my_profile
     if check_myprofile_name_empty
     else
       check_myprofile_position_empty
@@ -34,7 +44,7 @@ class ProfilesController < ApplicationController
     @my_profile_name = current_user.name
 
     if @my_profile_name.blank?
-      redirect_to profile_edit_path, notice: 'Name is missing from your profile. Please add your name.'
+      redirect_to edit_profile_path(@profile), notice: 'Name is missing from your profile. Please add your name.'
     end
   end
 
@@ -42,7 +52,7 @@ class ProfilesController < ApplicationController
     @my_profile_position = current_user.position
 
     if @my_profile_position.blank?
-      redirect_to profile_edit_path, notice: 'Position is missing from your profile. Please add a new position.'
+      redirect_to edit_profile_path(@profile), notice: 'Position is missing from your profile. Please add a new position.'
     end
   end
 
@@ -50,7 +60,18 @@ class ProfilesController < ApplicationController
     params(:profile).permit(:name)
   end
 
-  def set_profile
+  def set_profile_user
+    @profile = User.includes(myskills: :skill).find_by(id: params[:id])
+  end
+
+  def check_profile_owner
+    @profile = User.find_by(id: params[:id])
+    unless @profile.id == current_user.id
+      redirect_to profile_path, notice: 'You do not own this profile, please behave.'
+    end
+  end
+
+  def set_current_profile
     @profile = current_user
   end
 end

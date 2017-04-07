@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= yield(:page_title) %> | Zeforge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= content_for?(:title) ? yield(:title) : "ZeForge Community" %></title>
+  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "ZeForge Community" %>">
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
-<body id="page-top" class="index">
+<body id="" class="">
   <%= render 'layouts/navbar' %>
   <%= render 'layouts/flash_messages' %>
-  <%= yield %>
+
+  <div class="">
+    <div class="container-fluid main-container">
+      <%= yield %>
+    </div>
+  </div>
   <%= render 'layouts/footer' %>
 </div>
 </body>

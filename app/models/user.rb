@@ -4,10 +4,20 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
+  enum role: [:student, :instructor, :member]
+
   has_many :myskills
   has_many :skills, through: :myskills
   has_many :posts, dependent: :destroy
 
+  has_many :courses, inverse_of: :user, dependent: :destroy
+  has_many :enrollments, inverse_of: :user
+  has_many :enrolled_courses, through: :enrollments, source: :course
+
+
+  def enrolled_in?(course)
+    enrolled_courses.include?(course)
+  end
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

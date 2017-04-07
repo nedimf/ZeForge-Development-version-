@@ -103,13 +103,25 @@ user = User.find(1)
 user.update_attribute :superadmin_role, true
 ```
 
+### Give user the instructor role
+```ruby
+user = User.find(1)
+user.update_attribute :role, 1
+```
+Check if user is instructor
+
+```ruby
+user = User.find(1)
+user.instructor?
+```
 
 # Importing fake data into app via Rails console
 
-Importing 100 posts
+Importing 100 posts and assign them to user with id of 1
 ```ruby
 (1..100).each do |i|
-  Post.create!(title: "Lipsum Post #{i}",
+  Post.create!(
+    title: "Lipsum Post #{i}",
     body: %{ Nullam hendrerit iaculis sodales.},
     description: %{ Nullam hendrerit iaculis sodales.},
     slug: ("Lipsum Post #{i}"),

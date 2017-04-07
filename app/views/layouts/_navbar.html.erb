@@ -1,4 +1,4 @@
-<nav id="mainNav" class="navbar navbar-default navbar-custom">
+<nav id="mainNav" class="navbar navbar-default navbar-static-top">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header page-scroll">
@@ -8,7 +8,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to 'ZeForge', root_path, class: "navbar-brand #{yield(:blog_active)}" %>
+      <a class="navbar-brand" href="/">
+        <%= image_tag("logo/zeforge_logo_sm.png", height: '25', width: '50', alt: "Logo") %>
+      </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -17,17 +19,32 @@
         <li>
           <%= link_to 'Courses', courses_path, class: "nav-link" %>
         </li>
+        <li>
+          <%= link_to 'Skills', skills_path, class: "nav-link" %>
+        </li>
+        <li>
+          <%= link_to 'Members', profiles_path, class: "nav-link" %>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My account <span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li class="dropdown-header">Content</li>
             <li><%= link_to 'My posts', profile_posts_path, class: " #{yield(:contact_active)}" %></li>
-            <li><%= link_to 'My profile', profile_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
             <li><%= link_to 'My skills', my_skills_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">Account</li>
+            <li><%= link_to 'My profile', my_profile_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
             <li><%= link_to 'My account', edit_user_registration_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
             <li><%= link_to 'My dashboard', my_dashboard_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
+            <% if current_user.instructor? %>
+              <li role="separator" class="divider"></li>
+              <li class="dropdown-header">INSTRUCTOR</li>
+              <li><%= link_to 'Dashboard', instructor_dashboard_path, class: " #{yield(:contact_active)}" %></li>
+              <li><%= link_to 'New Course', new_instructor_course_path, class: " #{yield(:contact_active)}" %></li>
+            <% end %>
             <li role="separator" class="divider"></li>
             <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
           </ul>
