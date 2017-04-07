@@ -39,7 +39,9 @@
             <li><%= link_to 'My profile', my_profile_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
             <li><%= link_to 'My account', edit_user_registration_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
             <li><%= link_to 'My dashboard', my_dashboard_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
+            <li><%= link_to 'My Gitter', my_dashboard_path, class: "dropdown-item #{yield(:contact_active)}" %></li>
             <% if current_user.instructor? %>
+
               <li role="separator" class="divider"></li>
               <li class="dropdown-header">INSTRUCTOR</li>
               <li><%= link_to 'Dashboard', instructor_dashboard_path, class: " #{yield(:contact_active)}" %></li>
