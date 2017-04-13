@@ -1,10 +1,28 @@
 Rails.application.routes.draw do
   
+  get 'classroom/library'
+
+  get 'classroom/members'
+
+  get 'classroom/gradebook'
+
+  get 'classroom/quizzes'
+
+  get 'classroom/workflow'
+
+  get 'classroom/header'
+
+  get 'classroom/discuss'
+
+  get 'classroom/index'
+
   #Chat
   get 'profiles/chat'
    get 'profiles/profile'
   resources :urls, :only => [:show, :new, :create]
-  
+
+#classroom
+get 'classroom/index'  
   
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
