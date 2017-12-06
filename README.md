@@ -1,6 +1,6 @@
 # README
 
-#Developing is not in progress!
+Developing is not in progress!
 
 # How to run the application
 1. Install ruby version 2.4 via RVM
